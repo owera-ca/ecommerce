@@ -11,3 +11,14 @@ from app.models.permissions import (  # noqa
     RoleAccessGroup,
 )
 from app.models.merchant import Merchant, Store, StoreTranslation  # noqa
+from app.models.category import Category, CategoryTranslation  # noqa
+from app.models.product import (  # noqa
+    Product,
+    ProductTranslation,
+    ProductAttribute,
+    ProductAttributeTranslation,
+    ProductAttributeValue,
+    ProductAttributeValueTranslation,
+    ProductVariation,
+    ProductVariationOption,
+)
