@@ -22,3 +22,4 @@ from app.models.product import (  # noqa
     ProductVariation,
     ProductVariationOption,
 )
+from app.models.order import Order, OrderItem  # noqa
