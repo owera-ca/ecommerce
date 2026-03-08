@@ -38,7 +38,7 @@ def upgrade() -> None:
     sa.Column('is_default_billing', sa.Boolean(), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['country_id'], ['country.id'], ),
-    sa.ForeignKeyConstraint(['province_state_id'], ['provincestate.id'], ),
+    sa.ForeignKeyConstraint(['province_state_id'], ['province_state.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

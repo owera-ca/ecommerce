@@ -21,7 +21,7 @@ class Address(Base):
     phone = Column(String(30), nullable=True)
 
     # Geography references
-    province_state_id = Column(Integer, ForeignKey("provincestate.id"), nullable=False)
+    province_state_id = Column(Integer, ForeignKey("province_state.id"), nullable=False)
     country_id = Column(Integer, ForeignKey("country.id"), nullable=False)
 
     is_active = Column(Boolean, default=True, nullable=False)

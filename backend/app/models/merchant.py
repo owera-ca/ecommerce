@@ -82,7 +82,7 @@ class StoreTranslation(Base):
     description = Column(Text, nullable=True)
 
     __table_args__ = (
-        UniqueConstraint("store_id", "locale", name="uq_storetranslation_store_locale"),
+        UniqueConstraint("store_id", "locale", name="uq_store_translation_store_locale"),
     )
 
     # Relationships
