@@ -17,6 +17,7 @@ export default function Login() {
         try {
             const data = await loginUser(email, password);
             localStorage.setItem("token", data.access_token);
+            window.dispatchEvent(new Event("authChange"));
             navigate("/");
         } catch (err) {
             setError(err.message || "Login failed");

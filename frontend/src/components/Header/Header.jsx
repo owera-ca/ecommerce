@@ -11,7 +11,7 @@ const Header = ({ user: initialUser }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const fetchUser = async (forceFetch = false) => {
             const token = localStorage.getItem("token");
             if (!token) {
                 setUser(null);
@@ -20,12 +20,14 @@ const Header = ({ user: initialUser }) => {
             }
 
             // check cache first for instant load
-            const cachedUser = localStorage.getItem("user");
-            if (cachedUser) {
-                try {
-                    setUser(JSON.parse(cachedUser));
-                } catch (e) {
-                    console.error("Failed to parse cached user");
+            if (!forceFetch) {
+                const cachedUser = localStorage.getItem("user");
+                if (cachedUser) {
+                    try {
+                        setUser(JSON.parse(cachedUser));
+                    } catch (e) {
+                        console.error("Failed to parse cached user");
+                    }
                 }
             }
 
@@ -44,6 +46,24 @@ const Header = ({ user: initialUser }) => {
         };
 
         fetchUser();
+
+        const handleAuthChange = () => {
+            fetchUser(true);
+        };
+
+        const handleStorageChange = (e) => {
+            if (e.key === "token" || e.key === "user") {
+                fetchUser();
+            }
+        };
+
+        window.addEventListener("authChange", handleAuthChange);
+        window.addEventListener("storage", handleStorageChange);
+
+        return () => {
+            window.removeEventListener("authChange", handleAuthChange);
+            window.removeEventListener("storage", handleStorageChange);
+        };
     }, []);
 
     const handleLogout = (e) => {
@@ -51,6 +71,7 @@ const Header = ({ user: initialUser }) => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         setUser(null);
+        window.dispatchEvent(new Event("authChange"));
         navigate("/login");
     };
 
