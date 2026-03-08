@@ -62,3 +62,18 @@ export const resetPassword = async (token, new_password) => {
     }
     return response.json();
 };
+
+export const getCurrentUser = async (token) => {
+    const response = await fetch(`${API_URL}/auth/me`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || "Failed to fetch user");
+    }
+    return response.json();
+};

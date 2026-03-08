@@ -1,11 +1,58 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { MapPin, Search as SearchIcon, ShoppingCart, Menu } from 'lucide-react';
+import { getCurrentUser } from '../../api/auth';
 import './Header.css';
 
-const Header = ({ user }) => {
+const Header = ({ user: initialUser }) => {
+    const [user, setUser] = useState(initialUser || null);
     const [searchCategory, setSearchCategory] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                setUser(null);
+                localStorage.removeItem("user");
+                return;
+            }
+
+            // check cache first for instant load
+            const cachedUser = localStorage.getItem("user");
+            if (cachedUser) {
+                try {
+                    setUser(JSON.parse(cachedUser));
+                } catch (e) {
+                    console.error("Failed to parse cached user");
+                }
+            }
+
+            try {
+                const userData = await getCurrentUser(token);
+                setUser(userData);
+                localStorage.setItem("user", JSON.stringify(userData));
+            } catch (err) {
+                console.error("Failed to fetch current user", err);
+                if (err.message.includes("401") || err.message.toLowerCase().includes("unauthorized") || err.message.includes("fetch user")) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    setUser(null);
+                }
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setUser(null);
+        navigate("/login");
+    };
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -128,7 +175,7 @@ const Header = ({ user }) => {
                                         <div className="account-links-section">
                                             <h3>Your Account</h3>
                                             <Link to="/account/switch">Switch Accounts</Link>
-                                            <Link to="/logout">Sign Out</Link>
+                                            <a href="#" onClick={handleLogout}>Sign Out</a>
                                             <div className="divider" style={{ margin: '10px 0', borderBottom: '1px solid #eee' }}></div>
                                             <Link to="/account">Your Account</Link>
                                             <Link to="/orders">Your Orders</Link>

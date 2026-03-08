@@ -292,20 +292,23 @@
 .amazon-nav-bottom .nav-bottom-item:hover {
     border: 1px solid white;
 }
+
 /* Account & Lists Dropdown Styling */
 .nav-account-dropdown {
     right: 0;
     left: auto;
-    min-width: 400px;
+    min-width: 500px;
     padding: 0;
     border-radius: 4px;
     overflow: hidden;
-    cursor: default; /* Reset cursor from nav-item */
+    cursor: default;
+    /* Reset cursor from nav-item */
 }
 
 .nav-account-dropdown::before {
     left: auto;
-    right: 30px; /* Align arrow with the trigger on the right */
+    right: 30px;
+    /* Align arrow with the trigger on the right */
 }
 
 .nav-item-content {
@@ -333,7 +336,8 @@
 }
 
 .account-dropdown-top .btn-primary:hover {
-    background-color: #f3d078 !important; /* Slightly darker yellow */
+    background-color: #f3d078 !important;
+    /* Slightly darker yellow */
     border-color: #9c7e31;
 }
 
@@ -354,12 +358,13 @@
 
 .account-dropdown-bottom {
     display: flex;
-    padding: 1rem;
+    padding: 10px 20px 20px 20px;
     background-color: white;
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
-.account-lists-section, .account-links-section {
+.account-lists-section,
+.account-links-section {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -367,7 +372,7 @@
 
 .account-lists-section {
     border-right: 1px solid #eee;
-    padding-right: 1.5rem;
+    padding-right: 2rem;
 }
 
 .account-dropdown-bottom h3 {
@@ -392,17 +397,20 @@
 
 /* Logged-in Dropdown Styling */
 .account-dropdown-profile {
-    background-color: #f2fbfa;
+    background-color: white;
     text-align: left;
-    padding: 1rem 1.5rem;
-    border-bottom: 2px solid #eee;
+    padding: 14px 20px 4px 20px;
+    border-bottom: none;
 }
 
 .profile-selector {
+    background-color: #e8f5f6;
+    border-radius: 8px;
+    padding: 14px 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 13px;
     color: #333;
 }
 
