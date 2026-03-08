@@ -1,0 +1,422 @@
+.amazon-header {
+    background-color: #131921;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    gap: 1rem;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.amazon-header a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Common Hover Style */
+.nav-item {
+    border: 1px solid transparent;
+    padding: 0.5rem;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.nav-item:hover {
+    border: 1px solid white;
+}
+
+.nav-item .line-1 {
+    font-size: 12px;
+    line-height: 14px;
+    color: #cccccc;
+}
+
+.nav-item .line-2 {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* Logo Area */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.nav-logo:hover {
+    border: 1px solid white;
+}
+
+.nav-logo span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: -1px;
+}
+
+.nav-logo .accent {
+    color: #ff9900;
+}
+
+/* Location Area */
+.nav-location {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.nav-location .icon {
+    align-self: flex-end;
+    margin-bottom: 2px;
+}
+
+/* Search Area */
+.nav-search {
+    flex-grow: 1;
+    display: flex;
+    height: 40px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: white;
+    margin: 0 0.5rem;
+}
+
+.nav-search:focus-within {
+    box-shadow: 0 0 0 2px #f90, 0 0 0 3px rgba(255, 153, 0, 0.5);
+}
+
+.nav-search-select {
+    background-color: #f3f3f3;
+    border: none;
+    border-right: 1px solid #cdcdcd;
+    padding: 0 0.5rem;
+    color: #555;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+}
+
+.nav-search-select:hover {
+    background-color: #dadada;
+    color: #333;
+}
+
+.nav-search-input {
+    flex-grow: 1;
+    border: none;
+    padding: 0 1rem;
+    font-size: 15px;
+    outline: none;
+    color: #111;
+}
+
+.nav-search-btn {
+    background-color: #febd69;
+    border: none;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.nav-search-btn:hover {
+    background-color: #f3a847;
+}
+
+/* Right Tools */
+.nav-tools {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-language {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.nav-language img {
+    width: 20px;
+    height: 14px;
+    object-fit: cover;
+}
+
+/* Dropdown styling (Basic) */
+.nav-dropdown-trigger {
+    position: relative;
+}
+
+.nav-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    /* Or right: 0 based on positioning */
+    background-color: white;
+    color: #333;
+    min-width: 240px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    border-radius: 3px;
+    padding: 1rem;
+    z-index: 1000;
+    border: 1px solid #ccc;
+}
+
+.nav-dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 30px;
+    /* Adjust arrow position */
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid white;
+}
+
+.nav-dropdown-trigger:hover .nav-dropdown-content {
+    display: block;
+}
+
+/* Specific dropdown behavior for Language */
+.nav-language-dropdown {
+    right: -50%;
+    left: auto;
+    min-width: 260px;
+}
+
+.nav-language-dropdown::before {
+    left: auto;
+    right: 50%;
+}
+
+.dropdown-section {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.dropdown-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.dropdown-line:hover {
+    color: #e47911;
+    text-decoration: underline;
+}
+
+.dropdown-radio {
+    accent-color: #e47911;
+}
+
+/* Cart */
+.nav-cart {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.5rem;
+}
+
+.nav-cart-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: -4px;
+}
+
+.nav-cart-count {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-20%);
+    color: #f08804;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.nav-cart-text {
+    font-weight: 700;
+    margin-bottom: 2px;
+    margin-left: 4px;
+}
+
+/* Secondary Nav Bar */
+.amazon-nav-bottom {
+    background-color: #232f3e;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 14px;
+    height: 39px;
+    gap: 0.5rem;
+}
+
+.amazon-nav-bottom .nav-bottom-item {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+}
+
+.amazon-nav-bottom .nav-bottom-item:hover {
+    border: 1px solid white;
+}
+/* Account & Lists Dropdown Styling */
+.nav-account-dropdown {
+    right: 0;
+    left: auto;
+    min-width: 400px;
+    padding: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: default; /* Reset cursor from nav-item */
+}
+
+.nav-account-dropdown::before {
+    left: auto;
+    right: 30px; /* Align arrow with the trigger on the right */
+}
+
+.nav-item-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+}
+
+.account-dropdown-top {
+    padding: 1rem 1.5rem;
+    background-color: white;
+    border-bottom: 2px solid #eee;
+    text-align: center;
+}
+
+.account-dropdown-top .btn-primary {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 13px;
+    border: 1px solid #a88734;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
+}
+
+.account-dropdown-top .btn-primary:hover {
+    background-color: #f3d078 !important; /* Slightly darker yellow */
+    border-color: #9c7e31;
+}
+
+.new-customer-text {
+    font-size: 11px;
+    color: #111;
+}
+
+.new-customer-text a {
+    color: #0066c0;
+    text-decoration: none;
+}
+
+.new-customer-text a:hover {
+    color: #c45500;
+    text-decoration: underline;
+}
+
+.account-dropdown-bottom {
+    display: flex;
+    padding: 1rem;
+    background-color: white;
+    gap: 1.5rem;
+}
+
+.account-lists-section, .account-links-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-lists-section {
+    border-right: 1px solid #eee;
+    padding-right: 1.5rem;
+}
+
+.account-dropdown-bottom h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 0.5rem;
+}
+
+.account-dropdown-bottom a {
+    color: #111;
+    font-size: 13px;
+    text-decoration: none;
+    padding: 4px 0;
+    display: block;
+}
+
+.account-dropdown-bottom a:hover {
+    color: #e47911;
+    text-decoration: underline;
+}
+
+/* Logged-in Dropdown Styling */
+.account-dropdown-profile {
+    background-color: #f2fbfa;
+    text-align: left;
+    padding: 1rem 1.5rem;
+    border-bottom: 2px solid #eee;
+}
+
+.profile-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #333;
+}
+
+.profile-selector a {
+    color: #007185;
+    text-decoration: none;
+}
+
+.profile-selector a:hover {
+    color: #c45500;
+    text-decoration: underline;
+}
+
+.profile-selector .arrow-right {
+    font-size: 16px;
+    margin-left: 4px;
+}
