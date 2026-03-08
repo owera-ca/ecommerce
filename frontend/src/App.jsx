@@ -8,6 +8,8 @@ import AdminLayout from "./layouts/AdminLayout";
 import Home from "./pages/storefront/Home";
 import Login from "./pages/storefront/Login";
 import Register from "./pages/storefront/Register";
+import ForgotPassword from "./pages/storefront/ForgotPassword";
+import ResetPassword from "./pages/storefront/ResetPassword";
 
 // Admin Pages
 import Dashboard from "./pages/admin/Dashboard";
@@ -21,6 +23,8 @@ function App() {
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password" element={<ResetPassword />} />
       </Route>
 
       {/* Admin Login Route (No Sidebar Layout) */}
