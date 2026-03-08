@@ -18,3 +18,4 @@ class User(Base):
     role_id = Column(Integer, ForeignKey("role.id"))
 
     role = relationship("Role", back_populates="users")
+    addresses = relationship("Address", back_populates="user")
