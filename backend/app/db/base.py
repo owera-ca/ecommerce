@@ -10,3 +10,4 @@ from app.models.permissions import (  # noqa
     AccessGroupPermission,
     RoleAccessGroup,
 )
+from app.models.merchant import Merchant, Store, StoreTranslation  # noqa
