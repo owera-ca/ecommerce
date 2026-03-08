@@ -24,12 +24,9 @@ class Address(Base):
     province_state_id = Column(Integer, ForeignKey("provincestate.id"), nullable=False)
     country_id = Column(Integer, ForeignKey("country.id"), nullable=False)
 
-    # Flags
-    is_default_shipping = Column(Boolean, default=False, nullable=False)
-    is_default_billing = Column(Boolean, default=False, nullable=False)
     is_active = Column(Boolean, default=True, nullable=False)
 
     # Relationships
-    user = relationship("User", back_populates="addresses")
+    user = relationship("User", back_populates="addresses", foreign_keys=[user_id])
     province_state = relationship("ProvinceState")
     country = relationship("Country")
