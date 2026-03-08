@@ -9,6 +9,7 @@ class Role(Base):
     name = Column(String, unique=True, index=True, nullable=False)
 
     users = relationship("User", back_populates="role")
+    access_groups = relationship("RoleAccessGroup", back_populates="role")
 
 
 class User(Base):

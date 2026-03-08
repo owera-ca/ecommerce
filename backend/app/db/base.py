@@ -3,3 +3,10 @@ from app.db.base_class import Base  # noqa
 from app.models.user import User, Role  # noqa
 from app.models.geography import Country, ProvinceState  # noqa
 from app.models.address import Address  # noqa
+from app.models.permissions import (  # noqa
+    PermissionDisplayGroup,
+    Permission,
+    AccessGroup,
+    AccessGroupPermission,
+    RoleAccessGroup,
+)
