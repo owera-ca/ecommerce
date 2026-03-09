@@ -93,97 +93,113 @@ export default function Users() {
             selector: row => row.is_active ? "Active" : "Inactive",
             sortable: true,
             cell: row => (
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${row.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${row.is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}`}>
                     {row.is_active ? "Active" : "Inactive"}
                 </span>
             )
         },
         {
             name: "Actions",
+            right: true,
             cell: row => (
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                     <button
                         onClick={() => navigate(`/admin/users/${row.id}`)}
-                        className="p-1 text-blue-600 hover:bg-blue-50 rounded"
-                        title="Edit User"
+                        className="text-gray-500 hover:text-black transition-colors p-1.5 rounded-md hover:bg-gray-100 cursor-pointer outline-none"
+                        title="Edit"
                     >
                         <Edit size={16} />
                     </button>
                     <button
                         onClick={() => handleDelete(row.id)}
-                        className="p-1 text-red-600 hover:bg-red-50 rounded"
-                        title="Delete User"
+                        className="text-gray-500 hover:text-red-600 transition-colors p-1.5 rounded-md hover:bg-red-50 cursor-pointer outline-none"
+                        title="Delete"
                     >
                         <Trash2 size={16} />
                     </button>
                 </div>
             ),
-            width: "120px"
         }
     ];
 
+    const customStyles = {
+        headRow: {
+            style: {
+                backgroundColor: '#f9fafb',
+                borderBottomColor: '#f3f4f6',
+            },
+        },
+        headCells: {
+            style: {
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                color: '#6b7280',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+            },
+        },
+        rows: {
+            style: {
+                transition: 'all 0.2s',
+                '&:hover': {
+                    backgroundColor: '#f9fafb',
+                },
+            },
+        },
+    };
+
     return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-            <div className="sm:flex sm:items-center sm:justify-between mb-8">
+        <div style={{ padding: "2rem", position: "relative" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Users</h1>
-                    <p className="mt-2 text-sm text-gray-700">
-                        A list of all users including their name, email, and role.
-                    </p>
+                    <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#111827", margin: 0 }}>Users</h2>
+                    <p style={{ color: "#6b7280", fontSize: "0.875rem", marginTop: "0.25rem" }}>A list of all users including their name, email, and role.</p>
                 </div>
-                <div className="mt-4 sm:mt-0">
-                    <button
-                        onClick={() => navigate("/admin/users/add")}
-                        className="flex items-center gap-2 rounded-none bg-black px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black cursor-pointer"
-                    >
-                        <Plus size={16} />
-                        Add User
-                    </button>
-                </div>
+                <button
+                    onClick={() => navigate("/admin/users/add")}
+                    style={{
+                        display: "flex", alignItems: "center", gap: "0.5rem", backgroundColor: "#000", color: "#fff",
+                        padding: "0.625rem 1.25rem", borderRadius: "0.75rem", fontWeight: "500", cursor: "pointer", border: "none"
+                    }}
+                >
+                    <Plus size={18} />
+                    Add User
+                </button>
             </div>
 
-            <div className="bg-white px-4 py-5 sm:px-6 rounded-none outline-1 -outline-offset-1 outline-gray-200 shadow-sm mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
-                <div className="relative w-full sm:max-w-xs">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Search className="h-4 w-4 text-gray-400" />
+            <div style={{ backgroundColor: "#fff", borderRadius: "1rem", boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)", border: "1px solid #f3f4f6", overflow: "hidden" }}>
+                <div style={{ padding: "1rem", borderBottom: "1px solid #f3f4f6", display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: "#f9fafb" }}>
+                    <div style={{ position: "relative", width: "16rem" }}>
+                        <Search style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", color: "#9ca3af" }} size={18} />
+                        <input
+                            type="text"
+                            placeholder="Search users..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{
+                                width: "100%", paddingLeft: "2.5rem", paddingRight: "1rem", paddingTop: "0.625rem", paddingBottom: "0.625rem",
+                                backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: "0.75rem", fontSize: "0.875rem", outline: "none", boxSizing: "border-box"
+                            }}
+                        />
                     </div>
-                    <input
-                        type="search"
-                        placeholder="Search users..."
-                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-none leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black focus:border-black sm:text-sm"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                </div>
+
+                <div className="react-data-table-wrapper">
+                    <DataTable
+                        columns={columns}
+                        data={users}
+                        progressPending={loading}
+                        pagination
+                        paginationServer
+                        paginationTotalRows={totalRows}
+                        onChangeRowsPerPage={handlePerRowsChange}
+                        onChangePage={handlePageChange}
+                        customStyles={customStyles}
+                        highlightOnHover
+                        pointerOnHover={false}
+                        noDataComponent={<div className="p-8 text-gray-500">No users found</div>}
                     />
                 </div>
-            </div>
-
-            <div className="bg-white outline-1 -outline-offset-1 outline-gray-200 rounded-none shadow-sm overflow-hidden">
-                <DataTable
-                    columns={columns}
-                    data={users}
-                    progressPending={loading}
-                    pagination
-                    paginationServer
-                    paginationTotalRows={totalRows}
-                    onChangeRowsPerPage={handlePerRowsChange}
-                    onChangePage={handlePageChange}
-                    customStyles={{
-                        headRow: {
-                            style: {
-                                backgroundColor: '#f9fafb',
-                                borderBottomColor: '#e5e7eb',
-                                fontWeight: 600,
-                                color: '#374151'
-                            }
-                        },
-                        cells: {
-                            style: {
-                                paddingTop: '12px',
-                                paddingBottom: '12px',
-                            }
-                        }
-                    }}
-                />
             </div>
         </div>
     );
