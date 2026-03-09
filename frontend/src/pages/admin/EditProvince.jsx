@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { ArrowLeft, Save } from "lucide-react";
+import CountrySelectModal from "../../components/CountrySelectModal";
 
 export default function EditProvince() {
     const { id } = useParams();
@@ -15,6 +16,8 @@ export default function EditProvince() {
         country_id: "",
         is_active: true
     });
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [countryName, setCountryName] = useState("");
 
     useEffect(() => {
         const fetchProvince = async () => {
@@ -28,6 +31,18 @@ export default function EditProvince() {
                         country_id: data.country_id || "",
                         is_active: data.is_active
                     });
+
+                    if (data.country_id) {
+                        try {
+                            const countryRes = await fetch(`http://localhost:8000/api/v1/geographies/countries/${data.country_id}`);
+                            if (countryRes.ok) {
+                                const countryData = await countryRes.json();
+                                setCountryName(countryData.name);
+                            }
+                        } catch (e) {
+                            console.error("Failed to fetch country name", e);
+                        }
+                    }
                 } else {
                     alert("Province not found");
                     navigate("/admin/provinces");
@@ -152,17 +167,25 @@ export default function EditProvince() {
                                 </div>
 
                                 <div className="sm:col-span-4">
-                                    <label htmlFor="country_id" className="block text-sm/6 font-medium text-gray-900">Country ID <span className="text-red-500">*</span></label>
-                                    <div className="mt-2">
-                                        <input
-                                            type="number"
-                                            name="country_id"
-                                            id="country_id"
-                                            value={formData.country_id}
-                                            onChange={handleInputChange}
-                                            required
-                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
-                                        />
+                                    <label className="block text-sm/6 font-medium text-gray-900">Country <span className="text-red-500">*</span></label>
+                                    <div className="mt-2 flex items-center gap-4">
+                                        {formData.country_id ? (
+                                            <Link
+                                                to={`/admin/countries/${formData.country_id}`}
+                                                className="text-base text-indigo-600 hover:text-indigo-900 font-medium"
+                                            >
+                                                {countryName || `Country ID: ${formData.country_id}`}
+                                            </Link>
+                                        ) : (
+                                            <span className="text-base text-gray-500">Not selected</span>
+                                        )}
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsModalOpen(true)}
+                                            className="rounded bg-white px-2.5 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
+                                        >
+                                            Change
+                                        </button>
                                     </div>
                                     <p className="mt-2 text-sm/6 text-gray-600">The parent country that this state or province belongs to.</p>
                                 </div>
@@ -226,6 +249,15 @@ export default function EditProvince() {
                     </div>
                 </form>
             </div>
+
+            <CountrySelectModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSelect={(country) => {
+                    setFormData(prev => ({ ...prev, country_id: country.id }));
+                    setCountryName(country.name);
+                }}
+            />
         </div>
     );
 }
