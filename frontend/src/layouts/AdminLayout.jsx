@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, Package, Settings, LogOut, Hexagon, Store, MapPin, Globe, Map, ShoppingCart } from "lucide-react";
+import { LayoutDashboard, Users, Package, Settings, LogOut, Hexagon, Store, MapPin, Globe, Map, ShoppingCart, Mail, Send } from "lucide-react";
 
 export default function AdminLayout() {
     const location = useLocation();
@@ -13,6 +13,8 @@ export default function AdminLayout() {
         { name: "Provinces", path: "/admin/provinces", icon: Map },
         { name: "Inventory", path: "/admin/inventory", icon: Package },
         { name: "Orders", path: "/admin/orders", icon: ShoppingCart },
+        { name: "Email Templates", path: "/admin/email-templates", icon: Mail },
+        { name: "Sent Emails", path: "/admin/sent-emails", icon: Send },
         { name: "Settings", path: "/admin/settings", icon: Settings },
     ];
 
@@ -58,8 +60,10 @@ export default function AdminLayout() {
                                             location.pathname.startsWith('/admin/provinces') ? 'Provinces' :
                                                 location.pathname.startsWith('/admin/inventory') ? 'Inventory' :
                                                     location.pathname.startsWith('/admin/orders') ? 'Orders' :
-                                                        location.pathname.startsWith('/admin/settings') ? 'Settings' :
-                                                            'Dashboard'}
+                                                        location.pathname.startsWith('/admin/email-templates') ? 'Email Templates' :
+                                                            location.pathname.startsWith('/admin/sent-emails') ? 'Sent Emails' :
+                                                                location.pathname.startsWith('/admin/settings') ? 'Settings' :
+                                                                    'Dashboard'}
                         </h1>
                     </div>
                     <div className="admin-header-actions">

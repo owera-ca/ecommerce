@@ -25,6 +25,9 @@ import Countries from "./pages/admin/Countries";
 import EditCountry from "./pages/admin/EditCountry";
 import Provinces from "./pages/admin/Provinces";
 import EditProvince from "./pages/admin/EditProvince";
+import EmailTemplates from "./pages/admin/EmailTemplates";
+import EditEmailTemplate from "./pages/admin/EditEmailTemplate";
+import SentEmails from "./pages/admin/SentEmails";
 
 function App() {
   return (
@@ -72,6 +75,14 @@ function App() {
         <Route path="inventory" element={<div className="p-8">Inventory Management (Coming Soon)</div>} />
         <Route path="orders" element={<div className="p-8">Order Management (Coming Soon)</div>} />
         <Route path="settings" element={<div className="p-8">Admin Settings (Coming Soon)</div>} />
+
+        {/* Email Templates */}
+        <Route path="email-templates" element={<EmailTemplates />} />
+        <Route path="email-templates/add" element={<EditEmailTemplate />} />
+        <Route path="email-templates/:id" element={<EditEmailTemplate />} />
+
+        {/* Sent Emails */}
+        <Route path="sent-emails" element={<SentEmails />} />
       </Route>
     </Routes>
   );

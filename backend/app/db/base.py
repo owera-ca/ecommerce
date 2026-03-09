@@ -23,3 +23,4 @@ from app.models.product import (  # noqa
     ProductVariationOption,
 )
 from app.models.order import Order, OrderItem  # noqa
+from app.models.email import EmailTemplate, EmailTemplateTranslation, Email  # noqa
