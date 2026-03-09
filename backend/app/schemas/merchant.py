@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
+from typing import Optional, List
 
 class MerchantBase(BaseModel):
     company_name: str
@@ -26,3 +26,7 @@ class MerchantResponse(MerchantBase):
 
     class Config:
         from_attributes = True
+
+class MerchantPaginatedResponse(BaseModel):
+    items: List[MerchantResponse]
+    total: int

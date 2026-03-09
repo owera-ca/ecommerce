@@ -6,6 +6,7 @@ import DataTable from "react-data-table-component";
 export default function Merchants() {
     const navigate = useNavigate();
     const [merchants, setMerchants] = useState([]);
+    const [totalRows, setTotalRows] = useState(0);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(10);
@@ -19,7 +20,8 @@ export default function Merchants() {
             const skip = (page - 1) * perPage;
             const res = await fetch(`http://localhost:8000/api/v1/merchants/?skip=${skip}&limit=${perPage}`);
             const data = await res.json();
-            setMerchants(data);
+            setMerchants(data.items || []);
+            setTotalRows(data.total || 0);
         } catch (error) {
             console.error("Failed to fetch merchants", error);
         } finally {
@@ -142,31 +144,37 @@ export default function Merchants() {
     };
 
     return (
-        <div className="p-8 relative">
-            <div className="flex justify-between items-center mb-8">
+        <div style={{ padding: "2rem", position: "relative" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Merchants</h2>
-                    <p className="text-gray-500 text-sm mt-1">Manage all merchants registered on the platform</p>
+                    <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#111827", margin: 0 }}>Merchants</h2>
+                    <p style={{ color: "#6b7280", fontSize: "0.875rem", marginTop: "0.25rem" }}>Manage all merchants registered on the platform</p>
                 </div>
                 <button
                     onClick={() => navigate("/admin/merchants/add")}
-                    className="flex items-center gap-2 bg-black hover:bg-gray-900 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm cursor-pointer"
+                    style={{
+                        display: "flex", alignItems: "center", gap: "0.5rem", backgroundColor: "#000", color: "#fff",
+                        padding: "0.625rem 1.25rem", borderRadius: "0.75rem", fontWeight: "500", cursor: "pointer", border: "none"
+                    }}
                 >
                     <Plus size={18} />
                     Add Merchant
                 </button>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/80">
-                    <div className="relative w-64">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <div style={{ backgroundColor: "#fff", borderRadius: "1rem", boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)", border: "1px solid #f3f4f6", overflow: "hidden" }}>
+                <div style={{ padding: "1rem", borderBottom: "1px solid #f3f4f6", display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: "#f9fafb" }}>
+                    <div style={{ position: "relative", width: "16rem" }}>
+                        <Search style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", color: "#9ca3af" }} size={18} />
                         <input
                             type="text"
                             placeholder="Search merchants..."
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all"
+                            style={{
+                                width: "100%", paddingLeft: "2.5rem", paddingRight: "1rem", paddingTop: "0.625rem", paddingBottom: "0.625rem",
+                                backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: "0.75rem", fontSize: "0.875rem", outline: "none", boxSizing: "border-box"
+                            }}
                         />
                     </div>
                 </div>
@@ -178,7 +186,7 @@ export default function Merchants() {
                         progressPending={loading}
                         pagination
                         paginationServer
-                        paginationTotalRows={100} // Setup proper total API count when available
+                        paginationTotalRows={totalRows}
                         onChangePage={(p) => setPage(p)}
                         onChangeRowsPerPage={(newPerPage, p) => {
                             setPerPage(newPerPage);

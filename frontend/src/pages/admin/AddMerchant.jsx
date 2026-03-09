@@ -57,7 +57,7 @@ export default function AddMerchant() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-4 md:p-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
             <div className="flex items-center gap-4 mb-8">
                 <button
                     onClick={() => navigate("/admin/merchants")}
@@ -71,136 +71,174 @@ export default function AddMerchant() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="mt-8">
                 <form onSubmit={handleSubmit}>
-                    <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* Column 1 */}
-                        <div className="space-y-6">
+                    <div className="space-y-12">
+                        {/* Core Identity Section */}
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                             <div>
-                                <h3 className="text-lg font-semibold text-gray-900 tracking-tight">Core Identity</h3>
-                                <p className="text-sm text-gray-500 mb-4">Basic information about the business entity.</p>
+                                <h2 className="text-base/7 font-semibold text-gray-900">Core Identity</h2>
+                                <p className="mt-1 text-sm/6 text-gray-600">Basic information about the business entity.</p>
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Company Name <span className="text-red-500">*</span></label>
-                                <input
-                                    type="text"
-                                    name="company_name"
-                                    value={formData.company_name}
-                                    onChange={handleInputChange}
-                                    required
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:bg-white transition-all"
-                                    placeholder="Enter registered company name"
-                                />
-                            </div>
+                            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="company_name" className="block text-sm/6 font-medium text-gray-900">Company Name <span className="text-red-500">*</span></label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="company_name"
+                                            id="company_name"
+                                            value={formData.company_name}
+                                            onChange={handleInputChange}
+                                            required
+                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
+                                            placeholder="Enter registered company name"
+                                        />
+                                    </div>
+                                </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">User ID <span className="text-red-500">*</span></label>
-                                <input
-                                    type="number"
-                                    name="user_id"
-                                    value={formData.user_id}
-                                    onChange={handleInputChange}
-                                    required
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:bg-white transition-all"
-                                    placeholder="e.g. 1"
-                                />
-                                <p className="text-xs text-gray-500 mt-2">The system user ID who owns this merchant account.</p>
-                            </div>
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="user_id" className="block text-sm/6 font-medium text-gray-900">User ID <span className="text-red-500">*</span></label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="number"
+                                            name="user_id"
+                                            id="user_id"
+                                            value={formData.user_id}
+                                            onChange={handleInputChange}
+                                            required
+                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
+                                            placeholder="e.g. 1"
+                                        />
+                                    </div>
+                                    <p className="mt-2 text-sm/6 text-gray-600">The system user ID who owns this merchant account.</p>
+                                </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Tax ID</label>
-                                <input
-                                    type="text"
-                                    name="tax_id"
-                                    value={formData.tax_id}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:bg-white transition-all"
-                                    placeholder="Optional business tax identifier"
-                                />
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="tax_id" className="block text-sm/6 font-medium text-gray-900">Tax ID</label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="tax_id"
+                                            id="tax_id"
+                                            value={formData.tax_id}
+                                            onChange={handleInputChange}
+                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
+                                            placeholder="Optional business tax identifier"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Column 2 */}
-                        <div className="space-y-6">
+                        {/* Contact Details Section */}
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                             <div>
-                                <h3 className="text-lg font-semibold text-gray-900 tracking-tight">Contact Details</h3>
-                                <p className="text-sm text-gray-500 mb-4">How customers and the platform can reach them.</p>
+                                <h2 className="text-base/7 font-semibold text-gray-900">Contact Details</h2>
+                                <p className="mt-1 text-sm/6 text-gray-600">How customers and the platform can reach them.</p>
                             </div>
 
+                            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Business Email</label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            id="email"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
+                                            placeholder="contact@company.com"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="phone" className="block text-sm/6 font-medium text-gray-900">Phone Number</label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            id="phone"
+                                            value={formData.phone}
+                                            onChange={handleInputChange}
+                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
+                                            placeholder="+1 (555) 000-0000"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="website" className="block text-sm/6 font-medium text-gray-900">Website</label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="url"
+                                            name="website"
+                                            id="website"
+                                            value={formData.website}
+                                            onChange={handleInputChange}
+                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
+                                            placeholder="https://company.com"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Status Section */}
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Business Email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:bg-white transition-all"
-                                    placeholder="contact@company.com"
-                                />
+                                <h2 className="text-base/7 font-semibold text-gray-900">Account Status</h2>
+                                <p className="mt-1 text-sm/6 text-gray-600">Manage account access and visibility.</p>
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Phone Number</label>
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:bg-white transition-all"
-                                    placeholder="+1 (555) 000-0000"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Website</label>
-                                <input
-                                    type="url"
-                                    name="website"
-                                    value={formData.website}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:bg-white transition-all"
-                                    placeholder="https://company.com"
-                                />
+                            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+                                <div className="sm:col-span-6">
+                                    <div className="space-y-6">
+                                        <div className="flex gap-3">
+                                            <div className="flex h-6 shrink-0 items-center">
+                                                <div className="group grid size-4 grid-cols-1">
+                                                    <input
+                                                        type="checkbox"
+                                                        id="is_active"
+                                                        name="is_active"
+                                                        checked={formData.is_active}
+                                                        onChange={handleInputChange}
+                                                        className="col-start-1 row-start-1 appearance-none rounded-none border border-gray-300 bg-white checked:border-black checked:bg-black indeterminate:border-black indeterminate:bg-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100"
+                                                    />
+                                                    <svg fill="none" viewBox="0 0 14 14" className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25">
+                                                        <path d="M3 8L6 11L11 3.5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="opacity-0 group-has-[:checked]:opacity-100" />
+                                                        <path d="M3 7H11" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="opacity-0 group-has-[:indeterminate]:opacity-100" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <div className="text-sm/6">
+                                                <label htmlFor="is_active" className="font-medium text-gray-900">Active Merchant Account</label>
+                                                <p className="text-gray-500">If unchecked, the merchant and their storefronts will be disabled.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="px-6 md:px-8 py-5 border-t border-gray-100 bg-gray-50">
-                        <div className="flex items-start">
-                            <div className="flex h-6 items-center">
-                                <input
-                                    type="checkbox"
-                                    id="is_active"
-                                    name="is_active"
-                                    checked={formData.is_active}
-                                    onChange={handleInputChange}
-                                    className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black cursor-pointer"
-                                />
-                            </div>
-                            <div className="ml-3">
-                                <label htmlFor="is_active" className="text-sm font-medium text-gray-900 cursor-pointer">
-                                    Active Merchant Account
-                                </label>
-                                <p className="text-sm text-gray-500">If unchecked, the merchant and their storefronts will be disabled.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-end gap-3 px-6 md:px-8 py-5 border-t border-gray-100">
+                    <div className="mt-6 flex items-center justify-end gap-x-6">
                         <button
                             type="button"
                             onClick={() => navigate("/admin/merchants")}
-                            className="px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer"
+                            className="text-sm/6 font-semibold text-gray-900 hover:text-gray-700 cursor-pointer"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             disabled={loading}
-                            className="flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-white bg-black rounded-xl hover:bg-gray-900 transition-colors disabled:opacity-70 disabled:cursor-not-allowed shadow-sm cursor-pointer"
+                            className="flex items-center gap-2 rounded-none bg-black px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            <Save size={18} />
+                            <Save size={16} />
                             {loading ? "Saving..." : "Create Merchant"}
                         </button>
                     </div>

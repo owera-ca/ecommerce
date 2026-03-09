@@ -46,7 +46,13 @@ export default function AdminLayout() {
             <main className="admin-main">
                 <header className="admin-header">
                     <div className="admin-header-title">
-                        <h1>{navItems.find(i => i.path === location.pathname)?.name || "Dashboard"}</h1>
+                        <h1>
+                            {location.pathname.startsWith('/admin/merchants') ? 'Merchants' :
+                                location.pathname.startsWith('/admin/inventory') ? 'Inventory' :
+                                    location.pathname.startsWith('/admin/orders') ? 'Orders' :
+                                        location.pathname.startsWith('/admin/settings') ? 'Settings' :
+                                            'Dashboard'}
+                        </h1>
                     </div>
                     <div className="admin-header-actions">
                         <div className="admin-user-profile">

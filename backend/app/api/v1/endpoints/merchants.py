@@ -5,11 +5,11 @@ from sqlalchemy.orm import Session
 
 from app.api import deps
 from app.models.merchant import Merchant
-from app.schemas.merchant import MerchantCreate, MerchantUpdate, MerchantResponse
+from app.schemas.merchant import MerchantCreate, MerchantUpdate, MerchantResponse, MerchantPaginatedResponse
 
 router = APIRouter()
 
-@router.get("/", response_model=List[MerchantResponse])
+@router.get("/", response_model=MerchantPaginatedResponse)
 def read_merchants(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
@@ -19,8 +19,9 @@ def read_merchants(
     """
     Retrieve merchants.
     """
+    total = db.query(Merchant).count()
     merchants = db.query(Merchant).offset(skip).limit(limit).all()
-    return merchants
+    return {"items": merchants, "total": total}
 
 @router.post("/", response_model=MerchantResponse)
 def create_merchant(
