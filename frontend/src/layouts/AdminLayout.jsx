@@ -1,11 +1,12 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, Package, Settings, LogOut, Hexagon } from "lucide-react";
+import { LayoutDashboard, Users, Package, Settings, LogOut, Hexagon, Store } from "lucide-react";
 
 export default function AdminLayout() {
     const location = useLocation();
 
     const navItems = [
         { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
+        { name: "Merchants", path: "/admin/merchants", icon: Store },
         { name: "Inventory", path: "/admin/inventory", icon: Package },
         { name: "Orders", path: "/admin/orders", icon: Users },
         { name: "Settings", path: "/admin/settings", icon: Settings },

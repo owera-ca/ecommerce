@@ -14,6 +14,9 @@ import ResetPassword from "./pages/storefront/ResetPassword";
 // Admin Pages
 import Dashboard from "./pages/admin/Dashboard";
 import AdminLogin from "./pages/admin/Login";
+import Merchants from "./pages/admin/Merchants";
+import AddMerchant from "./pages/admin/AddMerchant";
+import EditMerchant from "./pages/admin/EditMerchant";
 
 function App() {
   return (
@@ -33,6 +36,9 @@ function App() {
       {/* Protected Admin Routes */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
+        <Route path="merchants" element={<Merchants />} />
+        <Route path="merchants/add" element={<AddMerchant />} />
+        <Route path="merchants/:id" element={<EditMerchant />} />
         {/* Placeholders for future routes */}
         <Route path="inventory" element={<div className="p-8">Inventory Management (Coming Soon)</div>} />
         <Route path="orders" element={<div className="p-8">Order Management (Coming Soon)</div>} />
