@@ -76,7 +76,7 @@ export default function EditMerchant() {
             if (payload.tax_id === "") payload.tax_id = null;
             if (payload.website === "") payload.website = null;
 
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/merchants/${id}`, {
+            const res = await fetch(`http://localhost:8000/api/v1/merchants/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)

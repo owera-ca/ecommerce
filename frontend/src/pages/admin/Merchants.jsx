@@ -17,7 +17,7 @@ export default function Merchants() {
             // In a real app with server-side filtering we'd pass search text and pagination, 
             // but for now we fetch a batch and rely on client or basic pagination
             const skip = (page - 1) * perPage;
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/merchants/?skip=${skip}&limit=${perPage}`);
+            const res = await fetch(`http://localhost:8000/api/v1/merchants/?skip=${skip}&limit=${perPage}`);
             const data = await res.json();
             setMerchants(data);
         } catch (error) {
@@ -35,7 +35,7 @@ export default function Merchants() {
         if (!window.confirm("Are you sure you want to delete this merchant?")) return;
 
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/merchants/${id}`, {
+            const res = await fetch(`http://localhost:8000/api/v1/merchants/${id}`, {
                 method: "DELETE"
             });
             if (res.ok) {
