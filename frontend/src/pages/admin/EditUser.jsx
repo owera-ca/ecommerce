@@ -237,7 +237,7 @@ export default function EditUser() {
                         </div>
                     </div>
 
-                    <div className="mt-6 flex items-center justify-end gap-x-4 border-t border-gray-900/10 pt-6">
+                    <div className="mt-6 flex items-center justify-end gap-x-6">
                         <button
                             type="button"
                             onClick={() => navigate("/admin/users")}
