@@ -17,6 +17,14 @@ import AdminLogin from "./pages/admin/Login";
 import Merchants from "./pages/admin/Merchants";
 import AddMerchant from "./pages/admin/AddMerchant";
 import EditMerchant from "./pages/admin/EditMerchant";
+import Users from "./pages/admin/Users";
+import EditUser from "./pages/admin/EditUser";
+import Addresses from "./pages/admin/Addresses";
+import EditAddress from "./pages/admin/EditAddress";
+import Countries from "./pages/admin/Countries";
+import EditCountry from "./pages/admin/EditCountry";
+import Provinces from "./pages/admin/Provinces";
+import EditProvince from "./pages/admin/EditProvince";
 
 function App() {
   return (
@@ -39,6 +47,27 @@ function App() {
         <Route path="merchants" element={<Merchants />} />
         <Route path="merchants/add" element={<AddMerchant />} />
         <Route path="merchants/:id" element={<EditMerchant />} />
+
+        {/* Users */}
+        <Route path="users" element={<Users />} />
+        <Route path="users/add" element={<EditUser />} />
+        <Route path="users/:id" element={<EditUser />} />
+
+        {/* Addresses */}
+        <Route path="addresses" element={<Addresses />} />
+        <Route path="addresses/add" element={<EditAddress />} />
+        <Route path="addresses/:id" element={<EditAddress />} />
+
+        {/* Countries */}
+        <Route path="countries" element={<Countries />} />
+        <Route path="countries/add" element={<EditCountry />} />
+        <Route path="countries/:id" element={<EditCountry />} />
+
+        {/* Provinces */}
+        <Route path="provinces" element={<Provinces />} />
+        <Route path="provinces/add" element={<EditProvince />} />
+        <Route path="provinces/:id" element={<EditProvince />} />
+
         {/* Placeholders for future routes */}
         <Route path="inventory" element={<div className="p-8">Inventory Management (Coming Soon)</div>} />
         <Route path="orders" element={<div className="p-8">Order Management (Coming Soon)</div>} />

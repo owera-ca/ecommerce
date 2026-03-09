@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
+from typing import Optional, List
 
 class RoleBase(BaseModel):
     id: int
@@ -9,6 +9,8 @@ class RoleBase(BaseModel):
         from_attributes = True
 
 class UserBase(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
     email: EmailStr
     is_active: Optional[bool] = True
 
@@ -22,3 +24,14 @@ class UserResponse(UserBase):
 
     class Config:
         from_attributes = True
+
+class UserUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    is_active: Optional[bool] = None
+    password: Optional[str] = None
+
+class UserPaginatedResponse(BaseModel):
+    items: List[UserResponse]
+    total: int

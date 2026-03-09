@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
+from app.schemas.user import UserResponse
 
 class MerchantBase(BaseModel):
     company_name: str
@@ -23,6 +24,7 @@ class MerchantUpdate(BaseModel):
 class MerchantResponse(MerchantBase):
     id: int
     user_id: int
+    user: Optional['UserResponse'] = None
 
     class Config:
         from_attributes = True

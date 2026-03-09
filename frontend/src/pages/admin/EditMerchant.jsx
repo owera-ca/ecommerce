@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { ArrowLeft, Save } from "lucide-react";
 
 export default function EditMerchant() {
@@ -14,7 +14,10 @@ export default function EditMerchant() {
         phone: "",
         tax_id: "",
         website: "",
-        is_active: true
+        is_active: true,
+        user: null,
+        billing_address_id: null,
+        shipping_address_id: null
     });
 
     useEffect(() => {
@@ -36,7 +39,10 @@ export default function EditMerchant() {
                         phone: merchant.phone || "",
                         tax_id: merchant.tax_id || "",
                         website: merchant.website || "",
-                        is_active: merchant.is_active
+                        is_active: merchant.is_active,
+                        user: merchant.user || null,
+                        billing_address_id: merchant.billing_address_id || null,
+                        shipping_address_id: merchant.shipping_address_id || null
                     });
                 } else {
                     alert("Merchant not found");
@@ -75,6 +81,9 @@ export default function EditMerchant() {
             if (payload.phone === "") payload.phone = null;
             if (payload.tax_id === "") payload.tax_id = null;
             if (payload.website === "") payload.website = null;
+
+            // Remove navigation items from payload
+            delete payload.user;
 
             const res = await fetch(`http://localhost:8000/api/v1/merchants/${id}`, {
                 method: "PUT",
@@ -142,18 +151,20 @@ export default function EditMerchant() {
                                 </div>
 
                                 <div className="sm:col-span-4">
-                                    <label htmlFor="user_id" className="block text-sm/6 font-medium text-gray-900">User ID <span className="text-red-500">*</span></label>
-                                    <div className="mt-2">
-                                        <input
-                                            type="number"
-                                            name="user_id"
-                                            id="user_id"
-                                            value={formData.user_id}
-                                            onChange={handleInputChange}
-                                            required
-                                            readOnly
-                                            className="block w-full rounded-none bg-gray-50 px-3 py-1.5 text-base text-gray-500 outline-1 -outline-offset-1 outline-gray-300 cursor-not-allowed opacity-80 sm:text-sm/6"
-                                        />
+                                    <label className="block text-sm/6 font-medium text-gray-900">User</label>
+                                    <div className="mt-2 flex items-center h-9">
+                                        {formData.user ? (
+                                            <Link
+                                                to={`/admin/users/${formData.user_id}`}
+                                                className="text-indigo-600 hover:text-indigo-900 font-medium"
+                                            >
+                                                {formData.user.first_name || formData.user.last_name
+                                                    ? `${formData.user.first_name || ""} ${formData.user.last_name || ""}`.trim()
+                                                    : formData.user.email}
+                                            </Link>
+                                        ) : (
+                                            <span className="text-gray-500">ID: {formData.user_id}</span>
+                                        )}
                                     </div>
                                     <p className="mt-2 text-sm/6 text-gray-600">Merchant user owner cannot be changed after creation.</p>
                                 </div>
@@ -221,6 +232,48 @@ export default function EditMerchant() {
                                             onChange={handleInputChange}
                                             className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
                                         />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Location Section */}
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+                            <div>
+                                <h2 className="text-base/7 font-semibold text-gray-900">Locations</h2>
+                                <p className="mt-1 text-sm/6 text-gray-600">Links to managed operational addresses.</p>
+                            </div>
+
+                            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+                                <div className="sm:col-span-4">
+                                    <label className="block text-sm/6 font-medium text-gray-900">Billing Address</label>
+                                    <div className="mt-2 flex items-center h-9">
+                                        {formData.billing_address_id ? (
+                                            <Link
+                                                to={`/admin/addresses/${formData.billing_address_id}`}
+                                                className="text-indigo-600 hover:text-indigo-900 font-medium"
+                                            >
+                                                Manage Billing Address &rarr;
+                                            </Link>
+                                        ) : (
+                                            <span className="text-gray-500 italic">No billing address assigned</span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-4">
+                                    <label className="block text-sm/6 font-medium text-gray-900">Shipping Address</label>
+                                    <div className="mt-2 flex items-center h-9">
+                                        {formData.shipping_address_id ? (
+                                            <Link
+                                                to={`/admin/addresses/${formData.shipping_address_id}`}
+                                                className="text-indigo-600 hover:text-indigo-900 font-medium"
+                                            >
+                                                Manage Shipping Address &rarr;
+                                            </Link>
+                                        ) : (
+                                            <span className="text-gray-500 italic">No shipping address assigned</span>
+                                        )}
                                     </div>
                                 </div>
                             </div>
