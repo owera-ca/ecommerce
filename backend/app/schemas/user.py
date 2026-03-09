@@ -19,7 +19,7 @@ class UserCreate(UserBase):
 
 class UserResponse(UserBase):
     id: int
-    role_id: int
+    role_id: Optional[int] = None
     role: Optional[RoleBase] = None
 
     class Config:

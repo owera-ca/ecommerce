@@ -105,12 +105,17 @@ def read_provinces(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
+    country_id: int | None = None,
 ) -> Any:
     """
     Retrieve provinces.
     """
-    total = db.query(ProvinceState).count()
-    provinces = db.query(ProvinceState).offset(skip).limit(limit).all()
+    query = db.query(ProvinceState)
+    if country_id is not None:
+        query = query.filter(ProvinceState.country_id == country_id)
+        
+    total = query.count()
+    provinces = query.offset(skip).limit(limit).all()
     return {"items": provinces, "total": total}
 
 @router.get("/provinces/{province_id}", response_model=ProvinceStateResponse)

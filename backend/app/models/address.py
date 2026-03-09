@@ -13,7 +13,6 @@ class Address(Base):
     # Address fields
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
-    company = Column(String(150), nullable=True)
     address_line_1 = Column(String(255), nullable=False)
     address_line_2 = Column(String(255), nullable=True)
     city = Column(String(100), nullable=False)

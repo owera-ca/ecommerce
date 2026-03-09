@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Save } from "lucide-react";
+import CountrySelectModal from "../../components/CountrySelectModal";
+import ProvinceSelectModal from "../../components/ProvinceSelectModal";
+import UserSelectModal from "../../components/UserSelectModal";
 
 export default function EditAddress() {
     const { id } = useParams();
@@ -13,7 +16,6 @@ export default function EditAddress() {
         user_id: "",
         first_name: "",
         last_name: "",
-        company: "",
         address_line_1: "",
         address_line_2: "",
         city: "",
@@ -23,6 +25,12 @@ export default function EditAddress() {
         country_id: "",
         is_active: true
     });
+    const [isCountryModalOpen, setIsCountryModalOpen] = useState(false);
+    const [isProvinceModalOpen, setIsProvinceModalOpen] = useState(false);
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [countryName, setCountryName] = useState("");
+    const [provinceName, setProvinceName] = useState("");
+    const [userName, setUserName] = useState("");
 
     useEffect(() => {
         const fetchAddress = async () => {
@@ -34,7 +42,6 @@ export default function EditAddress() {
                         user_id: data.user_id || "",
                         first_name: data.first_name || "",
                         last_name: data.last_name || "",
-                        company: data.company || "",
                         address_line_1: data.address_line_1 || "",
                         address_line_2: data.address_line_2 || "",
                         city: data.city || "",
@@ -44,6 +51,40 @@ export default function EditAddress() {
                         country_id: data.country_id || "",
                         is_active: data.is_active
                     });
+
+                    if (data.country_id) {
+                        try {
+                            const countryRes = await fetch(`http://localhost:8000/api/v1/geographies/countries/${data.country_id}`);
+                            if (countryRes.ok) {
+                                const countryData = await countryRes.json();
+                                setCountryName(countryData.name);
+                            }
+                        } catch (e) {
+                            console.error("Failed to fetch country name", e);
+                        }
+                    }
+                    if (data.province_state_id) {
+                        try {
+                            const provinceRes = await fetch(`http://localhost:8000/api/v1/geographies/provinces/${data.province_state_id}`);
+                            if (provinceRes.ok) {
+                                const provinceData = await provinceRes.json();
+                                setProvinceName(provinceData.name);
+                            }
+                        } catch (e) {
+                            console.error("Failed to fetch province name", e);
+                        }
+                    }
+                    if (data.user_id) {
+                        try {
+                            const userRes = await fetch(`http://localhost:8000/api/v1/users/${data.user_id}`);
+                            if (userRes.ok) {
+                                const userData = await userRes.json();
+                                setUserName(`${userData.first_name || ""} ${userData.last_name || ""}`.trim() || userData.email);
+                            }
+                        } catch (e) {
+                            console.error("Failed to fetch user name", e);
+                        }
+                    }
                 } else {
                     alert("Address not found");
                     navigate("/admin/addresses");
@@ -81,7 +122,6 @@ export default function EditAddress() {
             payload.province_state_id = parseInt(payload.province_state_id, 10);
 
             // Null checking for optionals
-            if (payload.company === "") payload.company = null;
             if (payload.address_line_2 === "") payload.address_line_2 = null;
             if (payload.phone === "") payload.phone = null;
 
@@ -174,32 +214,25 @@ export default function EditAddress() {
                                     </div>
                                 </div>
 
-                                <div className="sm:col-span-6">
-                                    <label htmlFor="company" className="block text-sm/6 font-medium text-gray-900">Company</label>
-                                    <div className="mt-2">
-                                        <input
-                                            type="text"
-                                            name="company"
-                                            id="company"
-                                            value={formData.company}
-                                            onChange={handleInputChange}
-                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
-                                        />
-                                    </div>
-                                </div>
+
 
                                 <div className="sm:col-span-4">
-                                    <label htmlFor="user_id" className="block text-sm/6 font-medium text-gray-900">User ID <span className="text-red-500">*</span></label>
-                                    <div className="mt-2">
-                                        <input
-                                            type="number"
-                                            name="user_id"
-                                            id="user_id"
-                                            value={formData.user_id}
-                                            onChange={handleInputChange}
-                                            required
-                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
-                                        />
+                                    <label className="block text-sm/6 font-medium text-gray-900">User <span className="text-red-500">*</span></label>
+                                    <div className="mt-2 flex items-center gap-4">
+                                        {formData.user_id ? (
+                                            <span className="text-base text-indigo-600 font-medium">
+                                                {userName ? `${userName} (ID: ${formData.user_id})` : `ID: ${formData.user_id}`}
+                                            </span>
+                                        ) : (
+                                            <span className="text-base text-gray-500">Not selected</span>
+                                        )}
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsUserModalOpen(true)}
+                                            className="rounded bg-white px-2.5 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
+                                        >
+                                            Change
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -257,18 +290,40 @@ export default function EditAddress() {
                                     </div>
                                 </div>
 
-                                <div className="sm:col-span-2">
-                                    <label htmlFor="province_state_id" className="block text-sm/6 font-medium text-gray-900">State / Province ID <span className="text-red-500">*</span></label>
-                                    <div className="mt-2">
-                                        <input
-                                            type="number"
-                                            name="province_state_id"
-                                            id="province_state_id"
-                                            value={formData.province_state_id}
-                                            onChange={handleInputChange}
-                                            required
-                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
-                                        />
+                                <div className="sm:col-span-3">
+                                    <label className="block text-sm/6 font-medium text-gray-900">Country <span className="text-red-500">*</span></label>
+                                    <div className="mt-2 flex items-center gap-4">
+                                        {formData.country_id ? (
+                                            <span className="text-base text-indigo-600 font-medium">{countryName || `ID: ${formData.country_id}`}</span>
+                                        ) : (
+                                            <span className="text-base text-gray-500">Not selected</span>
+                                        )}
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsCountryModalOpen(true)}
+                                            className="rounded bg-white px-2.5 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
+                                        >
+                                            Change
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-3">
+                                    <label className="block text-sm/6 font-medium text-gray-900">State / Province <span className="text-red-500">*</span></label>
+                                    <div className="mt-2 flex items-center gap-4">
+                                        {formData.province_state_id ? (
+                                            <span className="text-base text-indigo-600 font-medium">{provinceName || `ID: ${formData.province_state_id}`}</span>
+                                        ) : (
+                                            <span className="text-base text-gray-500">Not selected</span>
+                                        )}
+                                        <button
+                                            type="button"
+                                            disabled={!formData.country_id}
+                                            onClick={() => setIsProvinceModalOpen(true)}
+                                            className="rounded bg-white px-2.5 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                        >
+                                            Change
+                                        </button>
                                     </div>
                                 </div>
 
@@ -280,21 +335,6 @@ export default function EditAddress() {
                                             name="postal_code"
                                             id="postal_code"
                                             value={formData.postal_code}
-                                            onChange={handleInputChange}
-                                            required
-                                            className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="sm:col-span-3">
-                                    <label htmlFor="country_id" className="block text-sm/6 font-medium text-gray-900">Country ID <span className="text-red-500">*</span></label>
-                                    <div className="mt-2">
-                                        <input
-                                            type="number"
-                                            name="country_id"
-                                            id="country_id"
-                                            value={formData.country_id}
                                             onChange={handleInputChange}
                                             required
                                             className="block w-full rounded-none bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
@@ -375,6 +415,39 @@ export default function EditAddress() {
                     </div>
                 </form>
             </div>
+
+            <CountrySelectModal
+                isOpen={isCountryModalOpen}
+                onClose={() => setIsCountryModalOpen(false)}
+                onSelect={(country) => {
+                    setFormData(prev => ({
+                        ...prev,
+                        country_id: country.id,
+                        province_state_id: "" // Reset province when country changes
+                    }));
+                    setCountryName(country.name);
+                    setProvinceName(""); // Reset province name
+                }}
+            />
+
+            <ProvinceSelectModal
+                isOpen={isProvinceModalOpen}
+                onClose={() => setIsProvinceModalOpen(false)}
+                countryId={formData.country_id}
+                onSelect={(province) => {
+                    setFormData(prev => ({ ...prev, province_state_id: province.id }));
+                    setProvinceName(province.name);
+                }}
+            />
+
+            <UserSelectModal
+                isOpen={isUserModalOpen}
+                onClose={() => setIsUserModalOpen(false)}
+                onSelect={(user) => {
+                    setFormData(prev => ({ ...prev, user_id: user.id }));
+                    setUserName(`${user.first_name || ""} ${user.last_name || ""}`.trim() || user.email);
+                }}
+            />
         </div>
     );
 }
