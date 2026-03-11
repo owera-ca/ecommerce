@@ -2,8 +2,9 @@
 # devenv — Manage the development environment
 #
 # Usage:
-#   ./devenv up    Start backend (uvicorn) and frontend (vite)
-#   ./devenv down  Stop both servers
+#   ./devenv setup  Install all backend and frontend dependencies
+#   ./devenv up     Start backend (uvicorn) and frontend (vite)
+#   ./devenv down   Stop both servers
 
 set -e
 
@@ -50,16 +51,38 @@ cmd_down() {
   echo "✅  Done."
 }
 
+cmd_setup() {
+  echo "🔧 Setting up development environment..."
+  echo ""
+
+  # ── Backend ──────────────────────────────────────────────────────────────
+  echo "▶  Backend: creating virtual environment with uv"
+  uv venv "$ROOT_DIR/.venv"
+
+  echo "▶  Backend: installing Python dependencies"
+  uv pip install --python "$ROOT_DIR/.venv/bin/python" -r "$ROOT_DIR/backend/requirements.txt"
+  echo ""
+
+  # ── Frontend ─────────────────────────────────────────────────────────────
+  echo "▶  Frontend: installing Node dependencies"
+  (cd "$ROOT_DIR/frontend" && npm install)
+  echo ""
+
+  echo "✅  Setup complete! Run './devenv up' to start the development environment."
+}
+
 # ── Entry point ───────────────────────────────────────────────────────────────
 case "${1:-}" in
-  up)   cmd_up ;;
-  down) cmd_down ;;
+  setup) cmd_setup ;;
+  up)    cmd_up ;;
+  down)  cmd_down ;;
   *)
     echo "Usage: $(basename "$0") <command>"
     echo ""
     echo "Commands:"
-    echo "  up    Start backend and frontend dev servers"
-    echo "  down  Stop backend and frontend dev servers"
+    echo "  setup  Install backend (uv + pip) and frontend (npm) dependencies"
+    echo "  up     Start backend and frontend dev servers"
+    echo "  down   Stop backend and frontend dev servers"
     exit 1
     ;;
 esac

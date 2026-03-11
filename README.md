@@ -64,6 +64,9 @@ cd ..
 Use the `devenv` script to manage both servers with a single command:
 
 ```bash
+# First-time setup: create venv, install Python + Node dependencies
+./devenv setup
+
 # Start both servers (opens separate Terminal windows)
 ./devenv up
 
