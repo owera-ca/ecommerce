@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# devenv — Manage the development environment
+#
+# Usage:
+#   ./devenv up    Start backend (uvicorn) and frontend (vite)
+#   ./devenv down  Stop both servers
+
+set -e
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+cmd_up() {
+  echo "🚀 Starting development environment..."
+  echo ""
+
+  # ── Backend ────────────────────────────────────────────────────────────────
+  echo "▶  Starting backend  (http://localhost:8000)"
+  osascript -e "tell application \"Terminal\" to do script \"cd '$ROOT_DIR' && source .venv/bin/activate && cd backend && uvicorn app.main:app --reload\"" &>/dev/null
+
+  # ── Frontend ───────────────────────────────────────────────────────────────
+  echo "▶  Starting frontend (http://localhost:5173)"
+  osascript -e "tell application \"Terminal\" to do script \"cd '$ROOT_DIR/frontend' && npm run dev\"" &>/dev/null
+
+  echo ""
+  echo "✅  Both servers started in separate Terminal windows."
+  echo "    Backend  → http://localhost:8000"
+  echo "    Frontend → http://localhost:5173"
+  echo "    API Docs → http://localhost:8000/docs"
+}
+
+cmd_down() {
+  echo "🛑 Stopping development environment..."
+  echo ""
+
+  # Stop uvicorn (backend)
+  if pkill -f "uvicorn app.main:app" 2>/dev/null; then
+    echo "✓  Backend  stopped"
+  else
+    echo "–  Backend  was not running"
+  fi
+
+  # Stop vite (frontend)
+  if pkill -f "vite" 2>/dev/null; then
+    echo "✓  Frontend stopped"
+  else
+    echo "–  Frontend was not running"
+  fi
+
+  echo ""
+  echo "✅  Done."
+}
+
+# ── Entry point ───────────────────────────────────────────────────────────────
+case "${1:-}" in
+  up)   cmd_up ;;
+  down) cmd_down ;;
+  *)
+    echo "Usage: $(basename "$0") <command>"
+    echo ""
+    echo "Commands:"
+    echo "  up    Start backend and frontend dev servers"
+    echo "  down  Stop backend and frontend dev servers"
+    exit 1
+    ;;
+esac
